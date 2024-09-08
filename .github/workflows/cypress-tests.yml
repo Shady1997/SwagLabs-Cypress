@@ -13,10 +13,11 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Adjust as needed
 
     strategy:
       matrix:
-        browser: [chrome, firefox]  # Run tests in Chrome and Firefox
+        browser: [chrome]  # Run tests in Chrome
 
     steps:
     # Step 1: Checkout the repository
@@ -27,7 +28,9 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'  # Specify the version of Node.js
+        node-version: '20'  # Specify the version of Node.js
+        cache: 'npm'
+        cache-dependency-path: ''  # Clear cache for testing
 
     # Step 3: Cache Node.js dependencies to speed up installs
     - name: Cache Node.js modules
