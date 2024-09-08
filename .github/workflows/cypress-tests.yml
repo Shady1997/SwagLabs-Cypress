@@ -1,64 +1,87 @@
-name: Run Cypress Tests
+# name: Run Cypress Tests
 
-# Controls when the action will run
-on:
-  push:
-    branches:
-      - master   # run on master branch push
-  pull_request:
-    branches:
-      - master   # run on pull requests targeting master branch
+# # Controls when the action will run
+# on:
+#   push:
+#     branches:
+#       - master   # run on master branch push
+#   pull_request:
+#     branches:
+#       - master   # run on pull requests targeting master branch
 
-# Define the jobs
-jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30  # Adjust as needed
+# # Define the jobs
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 30  # Adjust as needed
 
-    strategy:
-      matrix:
-        browser: [chrome]  # Run tests in Chrome
+#     strategy:
+#       matrix:
+#         browser: [chrome]  # Run tests in Chrome
 
-    steps:
-    # Step 1: Checkout the repository
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+#     steps:
+#     # Step 1: Checkout the repository
+#     - name: Checkout Repository
+#       uses: actions/checkout@v3
 
-    # Step 2: Set up Node.js environment
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'  # Specify the version of Node.js
-        cache: 'npm'
-        cache-dependency-path: ''  # Clear cache for testing
+#     # Step 2: Set up Node.js environment
+#     - name: Setup Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: '20'  # Specify the version of Node.js
+#         cache: 'npm'
+#         cache-dependency-path: ''  # Clear cache for testing
 
-    # Step 3: Cache Node.js dependencies to speed up installs
-    - name: Cache Node.js modules
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+#     # Step 3: Cache Node.js dependencies to speed up installs
+#     - name: Cache Node.js modules
+#       uses: actions/cache@v3
+#       with:
+#         path: ~/.npm
+#         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+#         restore-keys: |
+#           ${{ runner.os }}-node-
 
-    # Step 4: Install dependencies
-    - name: Install Dependencies
-      run:  npm install --force
+#     # Step 4: Install dependencies
+#     - name: Install Dependencies
+#       run:  npm install 
 
-    # Step 5: Run Cypress tests
-    - name: Run Cypress Tests on ${{ matrix.browser }}
-      run: npx cypress run --browser ${{ matrix.browser }}
+#     # Step 5: Run Cypress tests
+#     - name: Run Cypress Tests on ${{ matrix.browser }}
+#       run: npx cypress run --browser ${{ matrix.browser }}
 
-    # Step 6: Upload test reports
-    - name: Upload Cypress Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-report
-        path: cypress/reports
+#     # Step 6: Upload test reports
+#     - name: Upload Cypress Report
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: cypress-report
+#         path: cypress/reports
 
-    # Step 7: Save screenshots and videos
-    - name: Upload Cypress Screenshots and Videos
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-artifacts
-        path: cypress/screenshots,cypress/videos
+#     # Step 7: Save screenshots and videos
+#     - name: Upload Cypress Screenshots and Videos
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: cypress-artifacts
+#         path: cypress/screenshots,cypress/videos
+
+# e2e/docker-compose.yml from repo
+# https://github.com/bahmutov/cypress-open-from-docker-compose
+version: '3.2'
+services:
+  # this is the web application we are going to test
+  sentimentalyzer:
+    build: ../
+    environment:
+      - PORT=8123
+  # Cypress container
+  cypress:
+    # the Docker image to use from https://github.com/cypress-io/cypress-docker-images
+    image: "cypress/included:3.2.0"
+    depends_on:
+      - sentimentalyzer
+    environment:
+      # pass base url to test pointing at the web application
+      - CYPRESS_baseUrl=http://sentimentalyzer:8123
+    # share the current folder as volume to avoid copying
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
