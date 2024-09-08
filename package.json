@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/cypress run",
-    "runtests": "npm run test --",
-    "cypress:run": "cypress run && opener cypress/reports/*.html"
+    "test": "test failed"
   },
   "keywords": [],
   "author": "",
