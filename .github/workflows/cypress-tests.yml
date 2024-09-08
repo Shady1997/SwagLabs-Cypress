@@ -1,0 +1,61 @@
+name: Run Cypress Tests
+
+# Controls when the action will run
+on:
+  push:
+    branches:
+      - main   # run on main branch push
+  pull_request:
+    branches:
+      - main   # run on pull requests targeting main branch
+
+# Define the jobs
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox]  # Run tests in Chrome and Firefox
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Specify the version of Node.js
+
+    # Step 3: Cache Node.js dependencies to speed up installs
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    # Step 4: Install dependencies
+    - name: Install Dependencies
+      run: npm install
+
+    # Step 5: Run Cypress tests
+    - name: Run Cypress Tests on ${{ matrix.browser }}
+      run: npx cypress run --browser ${{ matrix.browser }}
+
+    # Step 6: Upload test reports
+    - name: Upload Cypress Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-report
+        path: cypress/reports
+
+    # Step 7: Save screenshots and videos
+    - name: Upload Cypress Screenshots and Videos
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-artifacts
+        path: cypress/screenshots,cypress/videos
