@@ -10,13 +10,11 @@ import LoginPage from '../support/pageObjects/LoginPage';
 
 describe('Cross-browser Login Tests', () => {
 
-  const loginPage = new LoginPage(); 
-
   const username = 'standard_user';
   const password = 'secret_sauce';
 
   it('Login Test in Chrome', { browser: 'chrome' }, () => {
-    loginPage.fillEmail(username).fillPassword(password).submit();
+    new LoginPage().fillEmail(username).fillPassword(password).submit();
 
     // Assert the user is logged in
     cy.get('#shopping_cart_container').should('be.visible');
