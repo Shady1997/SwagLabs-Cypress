@@ -1,0 +1,28 @@
+{
+  "name": "swag-labs-cypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/cypress run",
+    "runtests": "npm run test --",
+    "cypress:run": "cypress run && opener cypress/reports/*.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.14.2",
+    "cypress-downloadfile": "^1.2.0",
+    "cypress-file-upload": "^4.1.1",
+    "video": true,
+    "videosFolder": "cypress/videos",
+    "screenshotsFolder": "cypress/screenshots",
+    "reporter": "mochawesome",
+    "cypress-mochawesome-reporter": "^3.2.3",
+    "mocha": "^8.2.0",
+    "mochawesome": "^6.2.1",
+    "mochawesome-merge": "^4.2.0"
+  }
+  
+}
