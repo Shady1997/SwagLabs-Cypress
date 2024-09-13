@@ -102,7 +102,7 @@ jobs:
 
     # Step 13: Deploy Cypress HTML Reports to GitHub Pages
     - name: Publish to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      run:  npm publish
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
