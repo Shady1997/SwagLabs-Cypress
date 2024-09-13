@@ -35,6 +35,8 @@ jobs:
       with:
         fetch-depth: 0  # Fetch all history to avoid shallow clone issues
         submodules: true  # If you use submodules, this will ensure they are fetched
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
     
     # Step 4: Debug the current working directory and list files
     - name: Show Current Directory and Files
