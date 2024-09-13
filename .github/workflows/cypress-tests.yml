@@ -29,11 +29,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'  # Specify the version of Node.js
-    #
+
     # Step 3: Install project dependencies
     - name: Install Dependencies
-      run: cd ..
-      run: npm install
+      run: 
+        cd ..
+        npm install
 
     # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
