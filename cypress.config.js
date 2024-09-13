@@ -11,7 +11,7 @@ module.exports = defineConfig({
     saveAllAttempts: false,
     embeddedScreenshots: true,
     inlineAssets: true,
-    overwrite: false,                   // Do not overwrite previous reports
+    overwrite: true,                   // Do not overwrite previous reports
     html: true,                         // Generate an HTML report
     json: false,                        // Optionally, also generate a JSON report
     timestamp: 'short',                 // Adds a timestamp to the report file name
