@@ -56,6 +56,7 @@ jobs:
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: |
         cd ..
+        ls
         npx cypress run --browser ${{ matrix.browser }}
 
     # Step 7: Upload test reports
