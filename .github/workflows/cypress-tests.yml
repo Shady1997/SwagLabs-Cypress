@@ -20,19 +20,25 @@ jobs:
         browser: [chrome]  # Run tests in Chrome
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+    # Step 1: Start Ubuntu and Install Dependencies
+    - name: Set up Ubuntu environment
+      run: sudo apt-get update && sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev build-essential xvfb
 
-    # Step 2: Set up Node.js environment
+    # Step 2: Install Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20'  # Specify the version of Node.js
         cache: 'npm'
-        cache-dependency-path: ''  # Clear cache for testing
 
-    # Step 3: Cache Node.js dependencies to speed up installs
+    # Step 3: Install Cypress dependencies
+    - name: Install Cypress dependencies
+      run: |
+        sudo apt-get install -y libnss3 libgconf-2-4
+        sudo apt-get install -y google-chrome-stable
+        npm install cypress
+
+    # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
       uses: actions/cache@v3
       with:
@@ -41,22 +47,22 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    # Step 4: Install dependencies
+    # Step 5: Install project dependencies
     - name: Install Dependencies
-      run:  npm install 
+      run: npm install
 
-    # Step 5: Run Cypress tests
+    # Step 6: Run Cypress Tests
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: npx cypress run --browser ${{ matrix.browser }}
 
-    # Step 6: Upload test reports
+    # Step 7: Upload test reports
     - name: Upload Cypress Report
       uses: actions/upload-artifact@v3
       with:
         name: cypress-report
         path: cypress/reports
 
-    # Step 7: Save screenshots and videos
+    # Step 8: Save screenshots and videos
     - name: Upload Cypress Screenshots and Videos
       uses: actions/upload-artifact@v3
       with:
