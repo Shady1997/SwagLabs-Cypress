@@ -26,8 +26,10 @@ jobs:
 
     # Step 2: Install Node.js
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/checkout@v4
+      uses: actions/setup-node@v4
       with:
+        cache-dependency-path: ./package-lock.json
         node-version: '20'  # Specify the version of Node.js
         cache: 'npm'
 
