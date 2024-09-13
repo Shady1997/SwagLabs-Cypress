@@ -22,17 +22,17 @@ describe('Cross-browser Login Tests', () => {
     cy.screenshot();
   });
 
-  // it('Login Test in Firefox', { browser: 'firefox' }, () => {
-  //   loginPage.login(username, password);
+  it('Login Test in Firefox', { browser: 'firefox' }, () => {
+    loginPage.login(username, password);
 
-  //   // Assert the user is logged in
-  //   cy.get('#shopping_cart_container').should('be.visible');
-  // });
+    // Assert the user is logged in
+    cy.get('#shopping_cart_container').should('be.visible');
+  });
 
-  // it('Login Test in Edge', { browser: 'edge' }, () => {
-  //   loginPage.login(username, password);
+  it('Login Test in Edge', { browser: 'edge' }, () => {
+    loginPage.login(username, password);
 
-  //   // Assert the user is logged in
-  //   cy.get('#shopping_cart_container').should('be.visible');
-  // });
+    // Assert the user is logged in
+    cy.get('#shopping_cart_container').should('be.visible');
+  });
 });
