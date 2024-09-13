@@ -26,20 +26,13 @@ jobs:
 
     # Step 2: Install Node.js
     - name: Setup Node.js
-      # uses: actions/checkout@v4
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
-        cache-dependency-path: ./package-lock.json
         node-version: '20'  # Specify the version of Node.js
-        cache: 'npm'
 
-
-    # Step 3: Install Cypress dependencies
-    - name: Install Cypress dependencies
-      run: |
-        sudo apt-get install -y libnss3 libgconf-2-4
-        sudo apt-get install -y google-chrome-stable
-        npm install cypress
+    # Step 3: Install project dependencies
+    - name: Install Dependencies
+      run: npm install
 
     # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
@@ -50,9 +43,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    # Step 5: Install project dependencies
-    - name: Install Dependencies
-      run: npm install
+    # Step 5: Install Cypress dependencies
+    - name: Install Cypress dependencies
+      run: |
+        sudo apt-get install -y libnss3 libgconf-2-4
+        sudo apt-get install -y google-chrome-stable
+        npm install cypress
 
     # Step 6: Run Cypress Tests
     - name: Run Cypress Tests on ${{ matrix.browser }}
