@@ -106,5 +106,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./cypress/reports
