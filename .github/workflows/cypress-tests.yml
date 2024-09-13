@@ -85,7 +85,7 @@ jobs:
       run: |
         npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
-        mv  cypress/reports/*.html index.html
+        mv  cypress/reports/*.html ./index.html
         cp  cypress/reports/*.html .
 
     # Step 11: Upload Cypress HTML Reports

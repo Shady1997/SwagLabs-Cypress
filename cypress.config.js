@@ -7,6 +7,7 @@ module.exports = defineConfig({
     reportDir: 'cypress/reports',       // Directory where the report will be saved
     charts: true,
     reportPageTitle: 'SwagLabs',
+    videoOnFailOnly: true,
     saveAllAttempts: false,
     embeddedScreenshots: true,
     inlineAssets: true,
