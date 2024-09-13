@@ -65,6 +65,11 @@ jobs:
         sudo apt-get install -y google-chrome-stable
         npm install cypress
 
+    # Set Cypress executable permissions
+    - name: Set Cypress executable permissions
+      run: |
+        chmod +x ./node_modules/.bin/cypress
+
     # Step 6: Run Cypress Tests
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: |
