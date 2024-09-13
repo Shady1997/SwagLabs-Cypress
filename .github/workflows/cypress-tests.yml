@@ -85,20 +85,25 @@ jobs:
       run: |
         npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
-
+    
+    #  Copy HTML files from reports to Root directory
+    - name: Copy HTML files from reports to root directory
+        run: |
+          cp cypress/reports/*.html .
+          
     # Step 11: Upload Cypress HTML Reports
     - name: Upload Cypress HTML Reports
       uses: actions/upload-artifact@v3
       with:
         name: cypress-html-reports
-        path: cypress/reports/*.html
+        path: $GITHUB_WORKSPACE/cypress/reports/*.html
 
     # Step 12: Upload Cypress Screenshots and Videos
     - name: Upload Cypress Screenshots and Videos
       uses: actions/upload-artifact@v3
       with:
         name: cypress-artifacts
-        path: cypress/screenshots,cypress/videos
+        path: $GITHUB_WORKSPACE/cypress/screenshots,$GITHUB_WORKSPACE/cypress/videos
 
     # Step 13: Deploy Cypress HTML Reports to GitHub Page
     - name: Publish to GitHub Pages
