@@ -33,7 +33,6 @@ jobs:
     # Step 3: Install project dependencies
     - name: Install Dependencies
       run: npm install
-      working-directory: ./SwagLabs-Cypress
 
     # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
