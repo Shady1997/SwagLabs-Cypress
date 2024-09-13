@@ -23,14 +23,14 @@ describe('Cross-browser Login Tests', () => {
   });
 
   it('Login Test in Firefox', { browser: 'firefox' }, () => {
-    loginPage.login(username, password);
+    new LoginPage().fillEmail(username).fillPassword(password).submit();
 
     // Assert the user is logged in
     cy.get('#shopping_cart_container').should('be.visible');
   });
 
   it('Login Test in Edge', { browser: 'edge' }, () => {
-    loginPage.login(username, password);
+    new LoginPage().fillEmail(username).fillPassword(password).submit();
 
     // Assert the user is logged in
     cy.get('#shopping_cart_container').should('be.visible');
