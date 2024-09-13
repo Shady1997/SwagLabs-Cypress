@@ -26,12 +26,13 @@ jobs:
 
     # Step 2: Install Node.js
     - name: Setup Node.js
-      uses: actions/checkout@v4
+      # uses: actions/checkout@v4
       uses: actions/setup-node@v4
       with:
         cache-dependency-path: ./package-lock.json
         node-version: '20'  # Specify the version of Node.js
         cache: 'npm'
+
 
     # Step 3: Install Cypress dependencies
     - name: Install Cypress dependencies
