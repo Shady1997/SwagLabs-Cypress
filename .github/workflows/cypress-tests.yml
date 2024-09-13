@@ -9,7 +9,6 @@ on:
     branches:
       - master   # run on pull requests targeting master branch
 
-# Define the jobs
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -30,26 +29,25 @@ jobs:
       with:
         node-version: '20'  # Specify the version of Node.js
 
-    # Step 1: Checkout the repository
+    # Step 3: Checkout the repository
     - name: Checkout Repository
       uses: actions/checkout@v3
       with:
-         fetch-depth: 0  # Fetch all history to avoid shallow clone issues
-         submodules: true  # If you use submodules, this will ensure they are fetched
+        fetch-depth: 0  # Fetch all history to avoid shallow clone issues
+        submodules: true  # If you use submodules, this will ensure they are fetched
     
-    # Step 2: Debug the current working directory and list files
+    # Step 4: Debug the current working directory and list files
     - name: Show Current Directory and Files
       run: |
         pwd     # Show the current working directory
         ls -la  # List all files to check for missing ones
-     
-    # Step 3: Install project dependencies
-    # - name: Install Dependencies
-    #   run: |
-    #     cd ..
-    #     npm install
 
-    # Step 4: Cache Cypress binary
+    # Step 5: Install project dependencies
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    # Step 6: Cache Cypress binary
     - name: Cache Cypress binary
       uses: actions/cache@v3
       with:
@@ -58,7 +56,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-cypress-
 
-    # Step 4: Cache Node.js modules
+    # Step 7: Cache Node.js modules
     - name: Cache Node.js modules
       uses: actions/cache@v3
       with:
@@ -67,35 +65,42 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    # Step 5: Install Cypress dependencies
+    # Step 8: Install Cypress dependencies
     - name: Install Cypress dependencies
       run: |
         sudo apt-get install -y libnss3 libgconf-2-4
         sudo apt-get install -y google-chrome-stable
         npm install cypress
+        npm install --save-dev cypress-mochawesome-reporter
 
-    # Set Cypress executable permissions
+    # Step 9: Set Cypress executable permissions
     - name: Set Cypress executable permissions
       run: |
         chmod +x ./node_modules/.bin/cypress
 
-    # Step 6: Run Cypress Tests
+    # Step 10: Run Cypress Tests
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: |
-        ls
         npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
 
-    # Step 7: Upload test reports
-    - name: Upload Cypress Report
+    # Step 11: Upload Cypress HTML Reports
+    - name: Upload Cypress HTML Reports
       uses: actions/upload-artifact@v3
       with:
-        name: cypress-report
-        path: cypress/reports
+        name: cypress-html-reports
+        path: cypress/reports/*.html
 
-    # Step 8: Save screenshots and videos
+    # Step 12: Upload Cypress Screenshots and Videos
     - name: Upload Cypress Screenshots and Videos
       uses: actions/upload-artifact@v3
       with:
         name: cypress-artifacts
         path: cypress/screenshots,cypress/videos
+
+    # Step 13: Deploy Cypress HTML Reports to GitHub Pages
+    - name: Deploy Reports to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./cypress/reports
