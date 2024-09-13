@@ -101,7 +101,10 @@ jobs:
         path: cypress/screenshots,cypress/videos
 
     # Step 13: Deploy Cypress HTML Reports to GitHub Pages
-    - name: Publish to GitHub Packages Apache Maven
-      run: npm publish $GITHUB_WORKSPACE/cypress/reports/*.html
+    - name: Publish to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       env:
         GITHUB_TOKEN: ${{ github.token }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./cypress/reports
