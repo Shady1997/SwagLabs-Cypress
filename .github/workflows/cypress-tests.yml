@@ -57,7 +57,7 @@ jobs:
         key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-cypress-
-          
+
     # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
       uses: actions/cache@v3
@@ -73,7 +73,6 @@ jobs:
         sudo apt-get install -y libnss3 libgconf-2-4
         sudo apt-get install -y google-chrome-stable
         npm install cypress
-        npx cypress install  # Ensure Cypress binary is installed
 
     # Set Cypress executable permissions
     - name: Set Cypress executable permissions
@@ -84,6 +83,7 @@ jobs:
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: |
         ls
+        npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
 
     # Step 7: Upload test reports
