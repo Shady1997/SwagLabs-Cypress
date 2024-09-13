@@ -86,7 +86,7 @@ jobs:
         npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
         cp  -f cypress/reports/*.html > ./index.html
-
+#
     # Step 11: Upload Cypress HTML Reports
     - name: Upload Cypress HTML Reports
       uses: actions/upload-artifact@v3
