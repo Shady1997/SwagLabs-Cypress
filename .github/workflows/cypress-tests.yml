@@ -49,6 +49,15 @@ jobs:
     #     cd ..
     #     npm install
 
+    # Step 4: Cache Cypress binary
+    - name: Cache Cypress binary
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+          
     # Step 4: Cache Node.js modules
     - name: Cache Node.js modules
       uses: actions/cache@v3
@@ -64,6 +73,7 @@ jobs:
         sudo apt-get install -y libnss3 libgconf-2-4
         sudo apt-get install -y google-chrome-stable
         npm install cypress
+        npx cypress install  # Ensure Cypress binary is installed
 
     # Set Cypress executable permissions
     - name: Set Cypress executable permissions
