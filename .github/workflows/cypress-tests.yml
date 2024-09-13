@@ -85,7 +85,10 @@ jobs:
       run: |
         npx cypress install  # Ensure Cypress binary is installed
         npx cypress run --browser ${{ matrix.browser }}
-        mv  cypress/reports/*.html  cypress/reports/index.html
+        cd  cypress/reports
+        mv  *.html  index.html
+        cd ..
+        cd ..
         cp  cypress/reports/*.html .
 
     # Step 11: Upload Cypress HTML Reports
@@ -110,3 +113,14 @@ jobs:
         publish_dir: $GITHUB_WORKSPACE/cypress/reports
       env: 
         publish_dir: $GITHUB_WORKSPACE/cypress/reports
+
+    # Step 14: Commit and push the updated report
+    - name: Commit and push HTML report
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Update HTML test report"
+        git push origin gh-pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
