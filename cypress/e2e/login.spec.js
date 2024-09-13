@@ -1,5 +1,5 @@
 // cypress/e2e/login.spec.js
-// import 'cypress-mochawesome-reporter/register';
+import 'cypress-mochawesome-reporter/register';
 
 // Import the hooks from the hooks.js file
 import '../support/hooks.js';
