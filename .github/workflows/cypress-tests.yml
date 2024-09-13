@@ -55,7 +55,6 @@ jobs:
     # Step 6: Run Cypress Tests
     - name: Run Cypress Tests on ${{ matrix.browser }}
       run: |
-        cd ..
         ls
         npx cypress run --browser ${{ matrix.browser }}
 
