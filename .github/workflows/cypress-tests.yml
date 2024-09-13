@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        browser: [chrome, firefox , edge]  # Run tests in Chrome
+        browser: [chrome, firefox, edge]  # Run tests in Chrome
 
     steps:
     # Step 1: Start Ubuntu and Install Dependencies
